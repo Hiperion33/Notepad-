@@ -1,0 +1,379 @@
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Notepad++ 2 :3</title>
+      <style>
+      p {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: large;
+        display: block;
+        word-wrap: break-word;
+        white-space: pre-wrap;
+      }
+      .aside {
+        background-color: rgb(164, 164, 164);
+        position: fixed;
+        right: 2px;
+        border-radius: 10px;
+        bottom: 10px;
+        height: 585px;
+        width: 295px;
+        border-style: solid;
+        z-index: 1;
+      }
+      .contenedor{
+        display: none;
+        position: absolute;
+        top: 105px;
+        background-color: rgb(184, 181, 181);
+        width: auto;
+        border-style: solid;
+        border-radius: 10px;
+        height: 280px;
+      }
+      .boton0{
+        position: relative;
+        margin-top: 17px;
+        margin-bottom: 15px;
+        background-color: grey;
+        left: 55px;
+        top: 25px;
+        border-radius: 10px;
+        padding: 16px;
+      }
+      .boton1 {
+        position: relative;
+        margin-top: 17px;
+        margin-bottom: 15px;
+        background-color: grey;
+        left: 55px;
+        top: 25px;
+        border-radius: 10px;
+        padding: 16px;
+      }
+      .boton2 {
+        position: relative;
+        margin-bottom: 15px;
+        left: 85px;
+        border-radius: 10px;
+        background-color: grey;
+        top: 25px;
+        padding: 16px;
+      }
+      .boton3 {
+        position: relative;
+        border-radius: 10px;
+        margin-bottom: 15px;
+        background-color: grey;
+        right: 105px;
+        top: 100px;
+        padding: 16px;
+      }
+      .boton4{
+        position: relative;
+        left: 150px;
+        background-color: grey;
+        border-radius: 10px;
+        top: 35px;
+        padding: 16px;
+      }
+      .boton5{
+        position: relative;
+        right: 58px;
+        background-color: grey;
+        border-radius: 10px;
+        top: 110px;
+        padding: 16px;
+      }
+      .boton6{
+        position: relative;
+        right: 45px;
+        background-color: grey;
+        border-radius: 10px;
+        top: 110px;
+        padding: 16px;
+      }
+      .boton7{
+        position: absolute;
+        left: 50px;
+        border-radius: 10px;
+        background-color: grey;
+        top: 500px;
+        padding: 16px;
+      }
+      .boton8{
+        position: absolute;
+        left: 180px;
+        border-radius: 10px;
+        background-color: grey;
+        top: 500px;
+        padding: 16px;
+      }
+      .div1 {
+        width: 70%;
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+      .div2 {
+        display: inline-block;
+        vertical-align: top;
+      }
+      </style>
+  </head>
+  <body>
+    <div class="div1">
+    <p id="p"></p>
+    </div>
+    <div class="div2">
+    <aside class="aside">
+      <input type="button" value="Edicion" id="Mas" class="boton0">
+      <div class="contenedor" id="contenedor">
+      <input type="button" value="Fuente" id="Font" class="boton1">
+      <input type="button" value="Tamano" id="Tamano" class="boton2">
+      <input type="button" value="Color" id="Color" class="boton3">
+      <input type="button" value="Des/Centrar" id="Centrar" class="boton4">
+      <input type="button" value="Italica" id="Italica" class="boton5">
+      <input type="button" value="Subrayado" id="Subrayado" class="boton6">
+    </div>
+      <input type="button" value="Guardar" id="Guardar" class="boton7">
+      <input type="button" value="Cargar" id="Cargar" class="boton8">
+    </aside>
+    </div>
+      <script>
+
+        //Aqui se define la variable "texto", que es donde se almacena el contenido
+          var texto = document.getElementById("p");
+
+          //Aqui se crean el Evento y la funcion que permien la escritura
+          document.addEventListener("keypress",function Escritura(){ 
+                  
+                  var letras = event.key;
+
+                  texto.innerHTML += letras;
+              });
+
+              //Aqui esta la funcion que permite copiar el texto con el comando "Ctrl + C"
+              function copia(){
+              var textoSeleccionado = window.getSelection().toString();
+            navigator.clipboard.writeText(textoSeleccionado)
+            .then(
+              function(){
+                alert("El texto se ha copiado correctamente")
+              }
+            )
+            .catch(
+              function (error){
+                alert("Ha ocurrido un error " + error)
+              }
+            )
+          }
+
+          //Aqui esta la funcion que permite cortar el texto con el comando "Ctrl + X"
+          function cortar(){
+              var textoSeleccionado = window.getSelection().toString();
+            navigator.clipboard.writeText(textoSeleccionado)
+            .then(
+              function(){
+                alert("El texto se ha cortado correctamente");
+                texto.innerHTML = texto.innerHTML.replace(textoSeleccionado, "");
+              }
+            )
+            .catch(
+              function (error){
+                alert("Ha ocurrido un error " + error)
+              }
+            );
+          };
+
+          //Aqui se llaman a las funciones que creamos arriba, como soy un vago/tonto no las puse donde mismo se llamaban
+        document.addEventListener("keydown", function(event){
+
+          //Aqui esta la de copia
+        if(event.ctrlKey && event.key === 'c'){
+          event.preventDefault();
+          copia();
+        }
+        //Aqui la de pegado
+        else if (event.ctrlKey && event.key === "v"){
+          event.preventDefault();
+          navigator.clipboard.readText()
+          .then(
+            function(textoPegado){
+            texto.innerHTML += textoPegado
+            })
+            .catch(function(error) {
+        console.error("Error al pegar desde el portapapeles:", error);
+      });
+        }
+        //Aqui la de cortado
+        else if(event.ctrlKey && event.key === "x"){
+          event.preventDefault();
+          cortar();
+          
+        }
+         })
+
+         //Aqui se definen el evento y la funcion que permiten borrar
+          document.addEventListener("keydown", function(event) {
+        if (event.key === "Backspace") {
+          var textoActual = texto.innerHTML;
+          var nuevoTexto = textoActual.slice(0, -1);
+          texto.innerHTML = nuevoTexto;
+        }
+      });
+
+      //Aqui se permite el salto de linea usando "Enter"
+      document.addEventListener("keydown", function(event){
+        if (event.key === "Enter"){
+          event.preventDefault();
+          var textoActual = texto.innerHTML;
+          var nuevoTexto = texto.innerHTML += "<br>";
+          texto.innerHTML = nuevoTexto;
+        };
+      })
+
+
+              // A PARTIR DE AQUI SE ENCUENTRAN LOS BOTONES CON SUS RESPECTIVAS FUNCIONES
+
+
+              //Aqui se define el primer boton (Edicion) y su evento que es mostrar otro contenido
+              var boton0 = document.getElementById("Mas");
+              var contenedor = document.getElementById("contenedor");
+              var i = 1;
+
+              boton0.addEventListener("click", function(){
+
+                switch(i){
+                  case 1:
+                  contenedor.style.display = "block";
+                    i++
+                    break;
+                    case 2:
+                      
+                      contenedor.style.display = "none";
+                      i--
+                      break;
+                };
+
+              })
+    //El segundo boton, que permite el cambio de fuente
+    var boton1 = document.getElementById("Font");
+
+    boton1.addEventListener("click", function(){
+
+    var fuente = prompt("Escribe que fuente te gustaria usar?");
+   texto.style.fontFamily = fuente;
+
+  })
+
+  //El tercer boton, que permite controlar el tamano de la fuente
+    var boton2 = document.getElementById("Tamano");
+
+   boton2.addEventListener("click", function(){
+    var tamano = prompt("Escribe que tamano de fuente te gustaria usar?");
+  texto.style.fontSize = tamano
+   })
+
+   //El cuarto boton, que permite el cambio de color en la fuente
+   var boton3 = document.getElementById("Color");
+
+   boton3.addEventListener("click", function(){
+    
+    var color = prompt("Que color de fuente deseas usar?");
+    texto.style.color = color;
+   })
+
+   // El quinto boton, que permite centrar y descentrar el texto
+   var boton4 = document.getElementById("Centrar");
+
+   boton4.addEventListener("click", function(){
+
+    if(texto.style.textAlign === "center" ){
+      var left = "left";
+      texto.style.textAlign = left
+    }
+    else{
+
+    var center = "center"
+    texto.style.textAlign = center;
+
+    }
+   });
+
+   //El sexto boton, que permite cambiar el estilo de la fuente
+   var boton5 = document.getElementById("Italica");
+   boton5.addEventListener("click", function(){
+
+    switch (i) {
+      case 1:
+        texto.style.fontStyle = "italic";
+        i++;
+        break;
+    
+      case 2:
+        texto.style.fontStyle = "normal";
+        i--;
+        break;
+    };
+    
+   });
+   
+   //El septimo boton, que permite subrar el texto
+   var boton6 = document.getElementById("Subrayado");
+   boton6.addEventListener("click", function(){
+switch(i){
+  case 1: 
+  texto.style.textDecoration = "underline";
+  i++;
+  break;
+  case 2:
+    texto.style.textDecoration = "none";
+    i--;
+    break;
+}
+
+   })
+
+   //El octavo boton, que permite Guardar
+   var boton7 = document.getElementById("Guardar");
+
+   boton7.addEventListener("click", function(){
+
+    var contenido = texto.innerHTML;
+    var name = prompt("Que nombre le desea poner a su documento?");
+    var nombreArchivo = name + ".txt";
+
+    var enlace = document.createElement("a");
+    enlace.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(contenido);    
+    enlace.download = nombreArchivo;
+
+    enlace.click();
+
+    alert("El archivo se ha guardado correctamente en: \"C:/Users/User/Downloads\"")
+
+   })
+
+   //El noveno boton, que permite cargar
+   var boton8 = document.getElementById("Cargar");
+
+   boton8.addEventListener("click", function(){
+     var input = document.createElement("input");
+     input.type = "file";
+
+     input.addEventListener("change", function(){
+      var primerFile = input.files[0];
+      var reader = new FileReader();
+
+      reader.onload = function(e){
+        var texto = document.getElementById("p");
+        texto.innerHTML = e.target.result;
+      }
+      reader.readAsText(primerFile);
+     })
+     input.click();
+   })
+          
+      </script>
+  </body>
+  </html>
